@@ -576,4 +576,235 @@
     }
 
     function showCategory(cat) {
-     
+      currentMainCat = cat;
+      currentSubCat = 'all';
+      const titles = { 'all': 'كل المنتجات', 'bags': 'قسم الشنط', 'scarves': 'قسم الطرح', 'accessories': 'قسم الأكسسوارات' };
+      document.getElementById('current-category-title').innerText = titles[cat];
+      document.getElementById('acc-subcategories').style.display = (cat === 'accessories') ? 'flex' : 'none';
+      renderProducts();
+    }
+
+    function filterSubCategory(sub, evt) {
+      currentSubCat = sub;
+      document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
+      if (evt && evt.target) evt.target.classList.add('active');
+      renderProducts();
+    }
+
+    function toggleSubCatSelect() {
+      const main = document.getElementById('p-main-cat').value;
+      document.getElementById('sub-cat-group').style.display = (main === 'accessories') ? 'block' : 'none';
+    }
+
+    // Cart Actions
+    function addToCart(id) {
+      const product = products.find(p => p.id === id);
+      if (product.stock <= 0) { alert('عذراً، هذا المنتج نفد من المخزن!'); return; }
+      cart.push(product);
+      document.getElementById('cart-count').innerText = cart.length;
+      alert(`تم إضافة (${product.name}) إلى سلتكِ`);
+    }
+
+    function openCartModal() {
+      const container = document.getElementById('cart-items-list');
+      container.innerHTML = '';
+
+      if (cart.length === 0) {
+        container.innerHTML = '<p style="text-align:center;">السلة فارغة حالياً!</p>';
+      } else {
+        cart.forEach((item, index) => {
+          container.innerHTML += `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <span>${item.name} (${item.price} ج.م)</span>
+            <button class="btn-action btn-delete" onclick="removeFromCart(${index})">حذف</button>
+          </div>`;
+        });
+      }
+
+      updateCartTotal();
+      document.getElementById('cart-modal').style.display = 'flex';
+    }
+
+    function updateCartTotal() {
+      let subTotal = cart.reduce((a, b) => a + b.price, 0);
+      let selectedGov = document.getElementById('cust-gov').value;
+      let shippingCost = shippingFees[selectedGov];
+
+      document.getElementById('shipping-cost-display').innerText = shippingCost;
+      document.getElementById('cart-total-price').innerText = subTotal > 0 ? (subTotal + shippingCost) : 0;
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      document.getElementById('cart-count').innerText = cart.length;
+      openCartModal();
+    }
+
+    function closeCartModal() { document.getElementById('cart-modal').style.display = 'none'; }
+
+    function submitOrder(e) {
+      e.preventDefault();
+      if (cart.length === 0) { alert('السلة فارغة!'); return; }
+
+      const name = document.getElementById('cust-name').value;
+      const phone = document.getElementById('cust-phone').value;
+      const gov = document.getElementById('cust-gov').options[document.getElementById('cust-gov').selectedIndex].text;
+      const address = document.getElementById('cust-address').value;
+      const receiptFile = document.getElementById('cust-receipt').files[0];
+
+      let currentShipping = shippingFees[document.getElementById('cust-gov').value];
+      let totalAmount = cart.reduce((a, b) => a + b.price, 0) + currentShipping;
+
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        orders.push({
+          id: orders.length + 1,
+          name, phone, address: gov + ' - ' + address,
+          receiptImg: event.target.result,
+          items: [...cart],
+          total: totalAmount,
+          status: 'قيد الانتظار'
+        });
+
+        alert('تم إرسال طلبكِ وإيصال الدفع بنجاح! سيتم مراجعته والتواصل معكِ');
+        cart = [];
+        document.getElementById('cart-count').innerText = '0';
+        closeCartModal();
+        if (isAdminLoggedIn) renderAdminOrders();
+      };
+      reader.readAsDataURL(receiptFile);
+    }
+
+    // Admin Auth
+    function openAdminModal() { document.getElementById('admin-login-modal').style.display = 'flex'; }
+    function closeAdminModal() { document.getElementById('admin-login-modal').style.display = 'none'; }
+
+    function verifyAdminPass() {
+      if (document.getElementById('admin-pass-input').value === 'gana') {
+        isAdminLoggedIn = true;
+        closeAdminModal();
+        document.getElementById('admin-dashboard').style.display = 'block';
+        renderAdminInventory();
+        renderAdminOrders();
+        alert('تم دخول لوحة التحكم بنجاح!');
+      } else {
+        alert('كلمة السر خاطئة!');
+      }
+    }
+
+    function updateSiteAssets(e) {
+      e.preventDefault();
+      shippingFees.alex = parseInt(document.getElementById('adm-ship-alex').value);
+      shippingFees.cairo = parseInt(document.getElementById('adm-ship-cairo').value);
+      shippingFees.other = parseInt(document.getElementById('adm-ship-other').value);
+
+      const heroFile = document.getElementById('adm-hero-file').files[0];
+      const bagsFile = document.getElementById('adm-bags-file').files[0];
+      const scarvesFile = document.getElementById('adm-scarves-file').files[0];
+      const accFile = document.getElementById('adm-acc-file').files[0];
+
+      if (heroFile) {
+        const r = new FileReader();
+        r.onload = e => document.getElementById('hero-img-element').src = e.target.result;
+        r.readAsDataURL(heroFile);
+      }
+      if (bagsFile) {
+        const r = new FileReader();
+        r.onload = e => document.getElementById('card-bg-bags').style.backgroundImage = `url('${e.target.result}')`;
+        r.readAsDataURL(bagsFile);
+      }
+      if (scarvesFile) {
+        const r = new FileReader();
+        r.onload = e => document.getElementById('card-bg-scarves').style.backgroundImage = `url('${e.target.result}')`;
+        r.readAsDataURL(scarvesFile);
+      }
+      if (accFile) {
+        const r = new FileReader();
+        r.onload = e => document.getElementById('card-bg-accessories').style.backgroundImage = `url('${e.target.result}')`;
+        r.readAsDataURL(accFile);
+      }
+
+      alert('تم تحديث إعدادات وصور الموقع وأسعار الشحن بنجاح!');
+    }
+
+    function addNewProduct(e) {
+      e.preventDefault();
+      const name = document.getElementById('p-name').value;
+      const price = parseInt(document.getElementById('p-price').value);
+      const stock = parseInt(document.getElementById('p-stock').value);
+      const mainCat = document.getElementById('p-main-cat').value;
+      const subCat = mainCat === 'accessories' ? document.getElementById('p-sub-cat').value : '';
+      const file = document.getElementById('p-file').files[0];
+
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        products.push({ id: products.length + 1, name, price, stock, mainCat, subCat, img: event.target.result });
+        alert('تمت إضافة المنتج للمتجر والمخزن!');
+        e.target.reset();
+        renderProducts();
+        renderAdminInventory();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function renderAdminInventory() {
+      const tbody = document.getElementById('inventory-table-body');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      products.forEach(p => {
+        tbody.innerHTML += `
+          <tr>
+            <td><img src="${p.img}" style="width:40px; height:40px; border-radius:8px; object-fit:cover;"></td>
+            <td>${p.name}</td>
+            <td>${p.price} ج.م</td>
+            <td>${p.mainCat} ${p.subCat ? '('+p.subCat+')' : ''}</td>
+            <td><input type="number" value="${p.stock}" style="width:50px;" onchange="updateStock(${p.id}, this.value)"></td>
+            <td><button class="btn-action btn-delete" onclick="deleteProduct(${p.id})">حذف</button></td>
+          </tr>`;
+      });
+    }
+
+    function updateStock(id, val) {
+      const p = products.find(prod => prod.id === id);
+      if (p) p.stock = parseInt(val);
+      renderProducts();
+    }
+
+    function deleteProduct(id) {
+      products = products.filter(p => p.id !== id);
+      renderProducts();
+      renderAdminInventory();
+    }
+
+    function renderAdminOrders() {
+      const tbody = document.getElementById('orders-table-body');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      orders.forEach(o => {
+        tbody.innerHTML += `
+          <tr>
+            <td>#${o.id}</td>
+            <td>${o.name}</td>
+            <td>${o.phone}<br><small>${o.address}</small></td>
+            <td><a href="${o.receiptImg}" target="_blank"><img src="${o.receiptImg}" style="width:40px; height:40px; border-radius:5px;"></a></td>
+            <td>${o.total} ج.م</td>
+            <td>
+              <select onchange="changeOrderStatus(${o.id}, this.value)">
+                <option ${o.status === 'قيد الانتظار' ? 'selected' : ''}>قيد الانتظار</option>
+                <option ${o.status === 'جاري الشحن' ? 'selected' : ''}>جاري الشحن</option>
+                <option ${o.status === 'تم التوصيل' ? 'selected' : ''}>تم التوصيل</option>
+              </select>
+            </td>
+          </tr>`;
+      });
+    }
+
+    function changeOrderStatus(id, status) {
+      const order = orders.find(o => o.id === id);
+      if (order) order.status = status;
+    }
+
+    // Initial Execute
+    renderProducts();
+  </script>
+</body>
+</html>
