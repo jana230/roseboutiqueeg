@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>ROSE.BOUTIQUE | Official Store</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -18,75 +18,267 @@
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
     body { background-color: var(--bg-white); color: var(--text-dark); overflow-x: hidden; }
 
-    /* Navbar */
-    .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; background: #fff; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; }
+    /* ============ Navbar ============ */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      background: #fff;
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
     .nav-links { display: flex; gap: 20px; align-items: center; }
-    .nav-links a { text-decoration: none; color: #555; font-size: 14px; font-weight: 600; cursor: pointer; }
+    .nav-links a { text-decoration: none; color: #555; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap; }
     .brand-logo-container { display: flex; align-items: center; gap: 10px; }
-    .brand-logo-text { font-weight: 900; font-size: 22px; color: var(--pink-accent); text-decoration: none; letter-spacing: 1px; }
+    .brand-logo-text { font-weight: 900; font-size: 22px; color: var(--pink-accent); text-decoration: none; letter-spacing: 1px; white-space: nowrap; }
     .nav-actions { display: flex; gap: 10px; align-items: center; }
-    .cart-btn { background: var(--pink-bg); color: #fff; border: none; padding: 8px 16px; border-radius: 20px; font-weight: bold; cursor: pointer; }
-    .admin-link-btn { background: #111; color: #fff; border: none; padding: 8px 18px; border-radius: 30px; font-size: 12px; font-weight: bold; cursor: pointer; }
+    .cart-btn { background: var(--pink-bg); color: #fff; border: none; padding: 8px 16px; border-radius: 20px; font-weight: bold; cursor: pointer; white-space: nowrap; }
+    .admin-link-btn { background: #111; color: #fff; border: none; padding: 8px 18px; border-radius: 30px; font-size: 12px; font-weight: bold; cursor: pointer; white-space: nowrap; }
 
-    /* Hero Section */
-    .hero-section { position: relative; height: 70vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #fff; overflow: hidden; }
-    .hero-title-back { font-size: 11vw; font-weight: 900; color: #111; margin: 0; letter-spacing: -2px; white-space: nowrap; user-select: none; }
-    .hero-product-img { position: absolute; width: 340px; top: 50%; left: 50%; transform: translate(-50%, -55%); z-index: 2; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.15)); }
-    .hero-footer { position: absolute; bottom: 30px; width: 85%; display: flex; justify-content: space-between; align-items: flex-end; z-index: 3; }
+    /* ============ Hero Section ============ */
+    .hero-section {
+      position: relative;
+      height: 70vh;
+      min-height: 450px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: #fff;
+      overflow: hidden;
+      padding: 20px;
+    }
+    .hero-title-back {
+      font-size: clamp(3rem, 11vw, 11vw);
+      font-weight: 900;
+      color: #111;
+      margin: 0;
+      letter-spacing: -2px;
+      white-space: nowrap;
+      user-select: none;
+      text-align: center;
+    }
+    .hero-product-img {
+      position: absolute;
+      width: clamp(200px, 30vw, 340px);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -55%);
+      z-index: 2;
+      filter: drop-shadow(0 20px 30px rgba(0,0,0,0.15));
+      max-width: 80%;
+    }
+    .hero-footer {
+      position: absolute;
+      bottom: 30px;
+      width: 85%;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      z-index: 3;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .hero-footer b { font-size: 16px; }
+    .hero-footer small { font-size: 12px; color: #666; }
     .btn-pill { background: var(--pink-bg); color: #fff; border: none; padding: 12px 28px; border-radius: 30px; cursor: pointer; font-weight: 700; text-decoration: none; display: inline-block; }
 
-    /* Features Section */
-    .features-section { display: flex; justify-content: space-around; padding: 25px; background: #fff; border-bottom: 1px solid var(--border-color); text-align: center; }
+    /* ============ Features Section ============ */
+    .features-section {
+      display: flex;
+      justify-content: space-around;
+      padding: 25px;
+      background: #fff;
+      border-bottom: 1px solid var(--border-color);
+      text-align: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
     .feature-item { font-size: 14px; font-weight: bold; color: var(--pink-accent); }
 
-    /* Collections Section */
+    /* ============ Collections Section ============ */
     .collections-section { padding: 50px 40px; background: #fff; }
     .section-title { text-align: center; font-size: 28px; font-weight: 900; margin-bottom: 25px; color: var(--text-dark); }
     .collections-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-    .collection-card { position: relative; height: 260px; border-radius: 25px; overflow: hidden; display: flex; align-items: flex-end; padding: 25px; background-size: cover; background-position: center; transition: 0.3s ease; }
+    .collection-card {
+      position: relative;
+      height: 260px;
+      border-radius: 25px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      padding: 25px;
+      background-size: cover;
+      background-position: center;
+      transition: 0.3s ease;
+    }
     .collection-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to top, rgba(0,0,0,0.75), transparent); }
     .collection-card:hover { transform: translateY(-5px); }
     .collection-content { position: relative; z-index: 2; color: #fff; width: 100%; }
     .collection-content h3 { font-size: 22px; font-weight: 800; margin-bottom: 5px; }
     .collection-content p { font-size: 12px; opacity: 0.9; margin-bottom: 12px; }
 
-    /* Subcategories Bar */
+    /* ============ Subcategories Bar ============ */
     .subcategories-bar { display: none; justify-content: center; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
     .sub-btn { background: var(--pink-light); color: var(--pink-accent); border: none; padding: 8px 18px; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 13px; }
     .sub-btn.active { background: var(--pink-accent); color: #fff; }
 
-    /* Featured Pink Section */
+    /* ============ Featured Pink Section ============ */
     .featured-banner-section { background-color: var(--pink-bg); padding: 50px 30px; border-radius: 35px; margin: 20px; color: #fff; }
-    .banner-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+    .banner-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; gap: 15px; flex-wrap: wrap; }
     .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 20px; }
     .pink-card { background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(10px); border-radius: 25px; padding: 20px; border: 1px solid rgba(255, 255, 255, 0.4); color: #111; position: relative; }
     .pink-card img { width: 100%; height: 180px; object-fit: contain; }
     .eco-badge { font-size: 11px; background: rgba(255, 255, 255, 0.7); padding: 4px 10px; border-radius: 12px; font-weight: bold; }
     .stock-badge { font-size: 11px; background: #111; color: #fff; padding: 3px 8px; border-radius: 10px; float: left; }
-    .card-details { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
+    .card-details { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; gap: 10px; flex-wrap: wrap; }
     .btn-pill-small { background: #fff; color: var(--text-dark); border: none; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: bold; cursor: pointer; }
 
-    /* Checkout & Pay Banner */
+    /* ============ Checkout & Pay Banner ============ */
     .payment-notice-box { background: #fff3f5; border: 2px dashed var(--pink-accent); padding: 15px; border-radius: 15px; margin-bottom: 20px; text-align: center; }
 
-    /* Control Buttons & Admin Panel */
+    /* ============ Control Buttons & Admin Panel ============ */
     .btn-action { border: none; padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer; margin-top: 5px; }
     .btn-edit-img { background: #17a2b8; color: #fff; width: 100%; }
     .btn-delete { background: #dc3545; color: #fff; }
     
     .admin-panel { display: none; background: #fff; padding: 30px; border-radius: 25px; margin: 40px; border: 2px solid var(--text-dark); }
     .admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
-    .admin-box { background: var(--bg-white); padding: 20px; border-radius: 15px; border: 1px solid var(--border-color); }
+    .admin-box { background: var(--bg-white); padding: 20px; border-radius: 15px; border: 1px solid var(--border-color); overflow-x: auto; }
     .form-group { margin-bottom: 12px; }
     .form-group label { display: block; font-weight: 700; font-size: 13px; margin-bottom: 4px; }
     .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; }
     .btn-submit { background: var(--text-dark); color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; }
 
-    .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; }
+    .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; padding: 15px; }
     .modal-content { background: #fff; padding: 30px; border-radius: 20px; width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; }
     
-    .table-custom { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
+    .table-custom { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; min-width: 600px; }
     .table-custom th, .table-custom td { padding: 8px; border: 1px solid #ddd; text-align: center; }
+
+    /* ============ Responsive Breakpoints ============ */
+
+    /* Tablet */
+    @media (max-width: 992px) {
+      .navbar { padding: 12px 20px; }
+      .nav-links { gap: 12px; }
+      .nav-links a { font-size: 13px; }
+      .brand-logo-text { font-size: 18px; }
+      .collections-section { padding: 40px 20px; }
+      .admin-panel { margin: 20px; padding: 20px; }
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 10px 15px;
+        gap: 10px;
+      }
+      .nav-links {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        gap: 15px;
+        padding-top: 10px;
+        border-top: 1px solid var(--border-color);
+        margin-top: 5px;
+      }
+      .brand-logo-container { order: 1; }
+      .nav-actions { order: 2; gap: 6px; }
+      .cart-btn { padding: 7px 12px; font-size: 12px; }
+      .admin-link-btn { padding: 7px 12px; font-size: 11px; }
+      .brand-logo-text { font-size: 16px; }
+
+      .hero-section { height: auto; min-height: 500px; padding: 30px 15px 100px; }
+      .hero-title-back { font-size: 15vw; letter-spacing: -1px; }
+      .hero-product-img { width: 65vw; max-width: 260px; }
+      .hero-footer {
+        position: absolute;
+        bottom: 20px;
+        width: 90%;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+      }
+      .hero-footer > div { text-align: center !important; max-width: 100% !important; }
+      .hero-footer > div:first-child { order: 2; }
+      .hero-footer > div:last-child { order: 1; }
+      .btn-pill { padding: 10px 22px; font-size: 13px; }
+
+      .features-section { padding: 15px 10px; gap: 10px; }
+      .feature-item { font-size: 12px; flex: 1 1 100%; }
+
+      .collections-section { padding: 30px 15px; }
+      .section-title { font-size: 22px; margin-bottom: 20px; }
+      .collections-grid { grid-template-columns: 1fr; gap: 15px; }
+      .collection-card { height: 200px; padding: 18px; }
+      .collection-content h3 { font-size: 18px; }
+
+      .featured-banner-section { padding: 30px 15px; margin: 15px 10px; border-radius: 25px; }
+      .banner-header { flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 20px; }
+      .banner-header h2 { font-size: 20px !important; }
+      .products-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .pink-card { padding: 12px; border-radius: 18px; }
+      .pink-card img { height: 130px; }
+      .card-details { flex-direction: column; align-items: stretch; gap: 8px; }
+      .card-details > div h4 { font-size: 13px; }
+      .btn-pill-small { width: 100%; padding: 8px; }
+
+      .sub-btn { font-size: 12px; padding: 6px 12px; }
+      .subcategories-bar { gap: 6px; }
+
+      .admin-panel { margin: 15px 10px; padding: 15px; border-radius: 15px; }
+      .admin-panel h2 { font-size: 18px !important; }
+      .admin-panel h3 { font-size: 15px; }
+      .admin-grid { grid-template-columns: 1fr; gap: 15px; }
+      .admin-box { padding: 15px; }
+      .table-custom { font-size: 11px; min-width: 550px; }
+
+      .modal { padding: 10px; }
+      .modal-content { padding: 20px 15px; border-radius: 15px; width: 95%; }
+      .modal-content h3 { font-size: 16px; }
+    }
+
+    /* Small Mobile */
+    @media (max-width: 480px) {
+      .nav-links { gap: 10px; }
+      .nav-links a { font-size: 12px; }
+      .brand-logo-text { font-size: 14px; letter-spacing: 0.5px; }
+      .cart-btn { padding: 6px 10px; font-size: 11px; }
+      .admin-link-btn { padding: 6px 10px; font-size: 10px; }
+
+      .hero-title-back { font-size: 18vw; }
+      .hero-section { min-height: 420px; }
+
+      .products-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+      .pink-card img { height: 110px; }
+      .eco-badge, .stock-badge { font-size: 9px; padding: 3px 6px; }
+
+      .modal-content { padding: 15px 12px; }
+      .form-group label { font-size: 12px; }
+      .form-group input, .form-group select, .form-group textarea { padding: 8px; font-size: 13px; }
+    }
+
+    /* Large screens - better spacing */
+    @media (min-width: 1400px) {
+      .products-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+      .collections-grid { gap: 25px; }
+    }
+
+    /* Touch device improvements */
+    @media (hover: none) {
+      .collection-card:hover { transform: none; }
+      .btn-pill, .btn-pill-small, .cart-btn, .admin-link-btn, .sub-btn, .btn-submit, .btn-action {
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+      }
+    }
   </style>
 </head>
 <body>
@@ -371,7 +563,7 @@
           <div class="pink-card">
             <span class="eco-badge">${p.mainCat.toUpperCase()}</span>
             <span class="stock-badge">متاح: ${p.stock}</span>
-            <img src="${p.img}">
+            <img src="${p.img}" alt="${p.name}">
             <div class="card-details">
               <div>
                 <h4>${p.name}</h4>
@@ -384,235 +576,4 @@
     }
 
     function showCategory(cat) {
-      currentMainCat = cat;
-      currentSubCat = 'all';
-      const titles = { 'all': 'كل المنتجات', 'bags': 'قسم الشنط', 'scarves': 'قسم الطرح', 'accessories': 'قسم الأكسسوارات' };
-      document.getElementById('current-category-title').innerText = titles[cat];
-      document.getElementById('acc-subcategories').style.display = (cat === 'accessories') ? 'flex' : 'none';
-      renderProducts();
-    }
-
-    function filterSubCategory(sub, evt) {
-      currentSubCat = sub;
-      document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
-      if (evt && evt.target) evt.target.classList.add('active');
-      renderProducts();
-    }
-
-    function toggleSubCatSelect() {
-      const main = document.getElementById('p-main-cat').value;
-      document.getElementById('sub-cat-group').style.display = (main === 'accessories') ? 'block' : 'none';
-    }
-
-    // Cart Actions
-    function addToCart(id) {
-      const product = products.find(p => p.id === id);
-      if (product.stock <= 0) { alert('عذراً، هذا المنتج نفد من المخزن!'); return; }
-      cart.push(product);
-      document.getElementById('cart-count').innerText = cart.length;
-      alert(`تم إضافة (${product.name}) إلى سلتكِ`);
-    }
-
-    function openCartModal() {
-      const container = document.getElementById('cart-items-list');
-      container.innerHTML = '';
-
-      if (cart.length === 0) {
-        container.innerHTML = '<p style="text-align:center;">السلة فارغة حالياً!</p>';
-      } else {
-        cart.forEach((item, index) => {
-          container.innerHTML += `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <span>${item.name} (${item.price} ج.م)</span>
-            <button class="btn-action btn-delete" onclick="removeFromCart(${index})">حذف</button>
-          </div>`;
-        });
-      }
-
-      updateCartTotal();
-      document.getElementById('cart-modal').style.display = 'flex';
-    }
-
-    function updateCartTotal() {
-      let subTotal = cart.reduce((a, b) => a + b.price, 0);
-      let selectedGov = document.getElementById('cust-gov').value;
-      let shippingCost = shippingFees[selectedGov];
-
-      document.getElementById('shipping-cost-display').innerText = shippingCost;
-      document.getElementById('cart-total-price').innerText = subTotal > 0 ? (subTotal + shippingCost) : 0;
-    }
-
-    function removeFromCart(index) {
-      cart.splice(index, 1);
-      document.getElementById('cart-count').innerText = cart.length;
-      openCartModal();
-    }
-
-    function closeCartModal() { document.getElementById('cart-modal').style.display = 'none'; }
-
-    function submitOrder(e) {
-      e.preventDefault();
-      if (cart.length === 0) { alert('السلة فارغة!'); return; }
-
-      const name = document.getElementById('cust-name').value;
-      const phone = document.getElementById('cust-phone').value;
-      const gov = document.getElementById('cust-gov').options[document.getElementById('cust-gov').selectedIndex].text;
-      const address = document.getElementById('cust-address').value;
-      const receiptFile = document.getElementById('cust-receipt').files[0];
-
-      let currentShipping = shippingFees[document.getElementById('cust-gov').value];
-      let totalAmount = cart.reduce((a, b) => a + b.price, 0) + currentShipping;
-
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        orders.push({
-          id: orders.length + 1,
-          name, phone, address: gov + ' - ' + address,
-          receiptImg: event.target.result,
-          items: [...cart],
-          total: totalAmount,
-          status: 'قيد الانتظار'
-        });
-
-        alert('تم إرسال طلبكِ وإيصال الدفع بنجاح! سيتم مراجعته والتواصل معكِ');
-        cart = [];
-        document.getElementById('cart-count').innerText = '0';
-        closeCartModal();
-        if (isAdminLoggedIn) renderAdminOrders();
-      };
-      reader.readAsDataURL(receiptFile);
-    }
-
-    // Admin Auth
-    function openAdminModal() { document.getElementById('admin-login-modal').style.display = 'flex'; }
-    function closeAdminModal() { document.getElementById('admin-login-modal').style.display = 'none'; }
-
-    function verifyAdminPass() {
-      if (document.getElementById('admin-pass-input').value === 'gana') {
-        isAdminLoggedIn = true;
-        closeAdminModal();
-        document.getElementById('admin-dashboard').style.display = 'block';
-        renderAdminInventory();
-        renderAdminOrders();
-        alert('تم دخول لوحة التحكم بنجاح!');
-      } else {
-        alert('كلمة السر خاطئة!');
-      }
-    }
-
-    function updateSiteAssets(e) {
-      e.preventDefault();
-      shippingFees.alex = parseInt(document.getElementById('adm-ship-alex').value);
-      shippingFees.cairo = parseInt(document.getElementById('adm-ship-cairo').value);
-      shippingFees.other = parseInt(document.getElementById('adm-ship-other').value);
-
-      const heroFile = document.getElementById('adm-hero-file').files[0];
-      const bagsFile = document.getElementById('adm-bags-file').files[0];
-      const scarvesFile = document.getElementById('adm-scarves-file').files[0];
-      const accFile = document.getElementById('adm-acc-file').files[0];
-
-      if (heroFile) {
-        const r = new FileReader();
-        r.onload = e => document.getElementById('hero-img-element').src = e.target.result;
-        r.readAsDataURL(heroFile);
-      }
-      if (bagsFile) {
-        const r = new FileReader();
-        r.onload = e => document.getElementById('card-bg-bags').style.backgroundImage = `url('${e.target.result}')`;
-        r.readAsDataURL(bagsFile);
-      }
-      if (scarvesFile) {
-        const r = new FileReader();
-        r.onload = e => document.getElementById('card-bg-scarves').style.backgroundImage = `url('${e.target.result}')`;
-        r.readAsDataURL(scarvesFile);
-      }
-      if (accFile) {
-        const r = new FileReader();
-        r.onload = e => document.getElementById('card-bg-accessories').style.backgroundImage = `url('${e.target.result}')`;
-        r.readAsDataURL(accFile);
-      }
-
-      alert('تم تحديث إعدادات وصور الموقع وأسعار الشحن بنجاح!');
-    }
-
-    function addNewProduct(e) {
-      e.preventDefault();
-      const name = document.getElementById('p-name').value;
-      const price = parseInt(document.getElementById('p-price').value);
-      const stock = parseInt(document.getElementById('p-stock').value);
-      const mainCat = document.getElementById('p-main-cat').value;
-      const subCat = mainCat === 'accessories' ? document.getElementById('p-sub-cat').value : '';
-      const file = document.getElementById('p-file').files[0];
-
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        products.push({ id: products.length + 1, name, price, stock, mainCat, subCat, img: event.target.result });
-        alert('تمت إضافة المنتج للمتجر والمخزن!');
-        e.target.reset();
-        renderProducts();
-        renderAdminInventory();
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function renderAdminInventory() {
-      const tbody = document.getElementById('inventory-table-body');
-      if (!tbody) return;
-      tbody.innerHTML = '';
-      products.forEach(p => {
-        tbody.innerHTML += `
-          <tr>
-            <td><img src="${p.img}" style="width:40px; height:40px; border-radius:8px; object-fit:cover;"></td>
-            <td>${p.name}</td>
-            <td>${p.price} ج.م</td>
-            <td>${p.mainCat} ${p.subCat ? '('+p.subCat+')' : ''}</td>
-            <td><input type="number" value="${p.stock}" style="width:50px;" onchange="updateStock(${p.id}, this.value)"></td>
-            <td><button class="btn-action btn-delete" onclick="deleteProduct(${p.id})">حذف</button></td>
-          </tr>`;
-      });
-    }
-
-    function updateStock(id, val) {
-      const p = products.find(prod => prod.id === id);
-      if (p) p.stock = parseInt(val);
-      renderProducts();
-    }
-
-    function deleteProduct(id) {
-      products = products.filter(p => p.id !== id);
-      renderProducts();
-      renderAdminInventory();
-    }
-
-    function renderAdminOrders() {
-      const tbody = document.getElementById('orders-table-body');
-      if (!tbody) return;
-      tbody.innerHTML = '';
-      orders.forEach(o => {
-        tbody.innerHTML += `
-          <tr>
-            <td>#${o.id}</td>
-            <td>${o.name}</td>
-            <td>${o.phone}<br><small>${o.address}</small></td>
-            <td><a href="${o.receiptImg}" target="_blank"><img src="${o.receiptImg}" style="width:40px; height:40px; border-radius:5px;"></a></td>
-            <td>${o.total} ج.م</td>
-            <td>
-              <select onchange="changeOrderStatus(${o.id}, this.value)">
-                <option ${o.status === 'قيد الانتظار' ? 'selected' : ''}>قيد الانتظار</option>
-                <option ${o.status === 'جاري الشحن' ? 'selected' : ''}>جاري الشحن</option>
-                <option ${o.status === 'تم التوصيل' ? 'selected' : ''}>تم التوصيل</option>
-              </select>
-            </td>
-          </tr>`;
-      });
-    }
-
-    function changeOrderStatus(id, status) {
-      const order = orders.find(o => o.id === id);
-      if (order) order.status = status;
-    }
-
-    // Initial Execute
-    renderProducts();
-  </script>
-</body>
-</html>
+     
